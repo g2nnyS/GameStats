@@ -1,11 +1,13 @@
 '''
 Date: 2025-03-27 22:24:05
 LastEditors: Wang Xiaomei XianYuPigeon@outlook.com
-LastEditTime: 2025-03-27 22:43:25
+LastEditTime: 2025-04-07 23:01:50
 FilePath: /gamestats/app.py
 '''
 # -*- coding: utf-8 -*-
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from fastapi.staticfiles import StaticFiles
+import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -19,10 +21,14 @@ app.add_middleware(
     allow_headers=["*"],  # 允许所有请求头
 )
 
+#配置服务器监听地址端口
+
 @app.get("/")
 def read_root():
-    return {"message": "Gamestats API by @g2nnyS - Status: OK✔"}
+    return {
+        "status": "OK ✔",
+        "copyright": "© 2025 Wang Xiaomei (XianYuPigeon@outlook.com)",
+        "message": "GameStats API is running"
+    }
 
-@app.post("/maimai")
-def maimai_status():
-    
+uvicorn.run(app, host="0.0.0.0", port="8080")

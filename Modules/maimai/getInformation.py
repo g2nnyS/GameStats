@@ -1,10 +1,11 @@
 '''
 Date: 2025-03-27 23:29:07
 LastEditors: Wang Xiaomei XianYuPigeon@outlook.com
-LastEditTime: 2025-04-05 02:56:33
+LastEditTime: 2025-04-08 00:00:00
 FilePath: /gamestats/Modules/maimai/getInformation.py
 '''
 import requests
+import pymysql
 import os
 import logging
 from dotenv import load_dotenv
@@ -12,10 +13,8 @@ from dotenv import load_dotenv
 #加载变量与机密
 load_dotenv()
 
-# API 配置
-API_URL = "https://maimai.lxns.net/api/v0/maimai/player/{FRIEND_CODE}"
+# TOKEN 配置
 API_TOKEN = os.getenv("MAIMAI_API_TOKEN")
-FRIEND_CODE = None #舞萌DX好友码槽位预留
 
 #向API发送请求获取玩家信息
 class PlayerStatus:
@@ -36,12 +35,13 @@ class PlayerStatus:
         self.frame = player_data.get("frame")  # 背景
         
     @staticmethod
-    def get_player_status():
+    def get_player_status(freind_code):
         headers = {
             "Authorization": API_TOKEN
         }
         try:
-            response = requests.get(API_URL, headers=headers)
+            url = f"https://maimai.lxns.net/api/v0/maimai/player/{freind_code}"
+            response = requests.get(url, headers=headers)
             response.raise_for_status()  # 如果响应包含错误代码则抛出异常
             
             player_data = response.json()
@@ -60,8 +60,7 @@ class PlayerStatus:
             logging.error(f"未知错误: {e}")
             return None
             
-    def to_dict(self):
-        """将玩家数据转换为字典格式，便于其他模块使用"""
+    def user_data(self):
         return {
             "player_id": self.player_id,
             "name": self.player_name,
