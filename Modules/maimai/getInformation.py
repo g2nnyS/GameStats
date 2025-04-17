@@ -5,7 +5,6 @@ LastEditTime: 2025-04-08 00:00:00
 FilePath: /gamestats/Modules/maimai/getInformation.py
 '''
 import requests
-import pymysql
 import os
 import logging
 from dotenv import load_dotenv
@@ -59,7 +58,7 @@ class PlayerStatus:
         except Exception as e:
             logging.error(f"未知错误: {e}")
             return None
-            
+
     def user_data(self):
         return {
             "player_id": self.player_id,
@@ -79,4 +78,3 @@ class PlayerStatus:
             "name_plate": self.name_plate,
             "frame": self.frame,
         }
-

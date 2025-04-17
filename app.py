@@ -1,7 +1,7 @@
 '''
 Date: 2025-03-27 22:24:05
 LastEditors: Wang Xiaomei XianYuPigeon@outlook.com
-LastEditTime: 2025-04-07 23:01:50
+LastEditTime: 2025-04-12 20:04:29
 FilePath: /gamestats/app.py
 '''
 # -*- coding: utf-8 -*-
@@ -29,6 +29,12 @@ def read_root():
         "status": "OK ✔",
         "copyright": "© 2025 Wang Xiaomei (XianYuPigeon@outlook.com)",
         "message": "GameStats API is running"
+    }
+
+@app.get("/mai2")
+def maimai_dx():
+    return {
+        "status": "OK ✔",
     }
 
 uvicorn.run(app, host="0.0.0.0", port="8080")
